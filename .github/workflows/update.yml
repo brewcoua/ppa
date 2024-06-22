@@ -1,0 +1,14 @@
+name: Update
+
+on:
+  schedule: # Update every 2 hours
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
+
+jobs:
+  discord-canary:
+    uses: ./.github/workflows/update_discord-canary.yml
+    secrets:
+      PAT: ${{ secrets.PAT }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
