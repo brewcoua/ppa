@@ -7,7 +7,20 @@ on:
 
 jobs:
   discord-canary:
-    uses: ./.github/workflows/update_discord-canary.yml
+    uses: ./.github/workflows/update_remote.yml
+    with:
+      remote_url: https://discord.com/api/download/canary?platform=linux&format=deb
+      pkg_name: discord-canary
+    secrets:
+      PAT: ${{ secrets.PAT }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+  discord:
+    uses: ./.github/workflows/update_remote.yml
+    with:
+      remote_url: https://discord.com/api/download?platform=linux&format=deb
+      pkg_name: discord
     secrets:
       PAT: ${{ secrets.PAT }}
       GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}

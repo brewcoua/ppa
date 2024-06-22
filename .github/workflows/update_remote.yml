@@ -1,7 +1,17 @@
-name: Discord Canary
+name: Update Remote
 
 on:
   workflow_call:
+    inputs:
+      remote_url:
+        type: string
+        required: true
+      pkg_name:
+        type: string
+        required: true
+      max_versions:
+        type: number
+        default: 5
     secrets:
       PAT:
         required: true
@@ -32,18 +42,18 @@ jobs:
       - name: Get latest version
         id: latest
         run: |
-          LATEST=$(curl -SsI https://discord.com/api/download/canary\?platform\=linux\&format\=deb | awk '/location/ {print $2}' | awk -F/ '{print $NF}')
+          LATEST=$(curl -SsI '${{ inputs.remote_url }}' | awk '/location/ {print $2}' | awk -F/ '{print $NF}')
           echo "latest=${LATEST}" >> "$GITHUB_OUTPUT"
 
-      - name: Check if the latest version is already in the repo
+      - name: Check if the latest version is already here
         id: check
-        working-directory: ubuntu/discord-canary
+        working-directory: ubuntu/${{ inputs.pkg_name }}
         run: |
-          if [ -e "$GITHUB_WORKSPACE/ubuntu/discord-canary/$LATEST" ]; then
-            echo "The latest version is already in the repo"
+          if [ -e "$GITHUB_WORKSPACE/ubuntu/${{ inputs.pkg_name }}/${LATEST}" ]; then
+            echo "The latest version is already in the repo (ubuntu/${{ inputs.pkg_name }}/${LATEST})"
             echo "needs_update=false" >> "$GITHUB_OUTPUT"
           else
-            echo "The latest version is not in the repo"
+            echo "The latest version is not in the repo (ubuntu/${{ inputs.pkg_name }}/${LATEST})"
             echo "needs_update=true" >> "$GITHUB_OUTPUT"
           fi
 
@@ -63,7 +73,12 @@ jobs:
         env:
           LATEST: ${{ needs.check.outputs.latest }}
         run: |
-          curl -SsL https://discord.com/api/download/canary\?platform\=linux\&format\=deb -o "$GITHUB_WORKSPACE/ubuntu/discord-canary/$LATEST"
+          curl -SsL '${{ inputs.remote_url }}' -o "$GITHUB_WORKSPACE/ubuntu/${{ inputs.pkg_name }}/${LATEST}"
+
+      - name: Clean up older versions
+        working-directory: ubuntu/${{ inputs.pkg_name }}
+        run: |
+          ls -t | tail -n +$(( ${{ inputs.max_versions }} + 1 )) | xargs rm -rf
 
       - name: Import GPG
         uses: crazy-max/ghaction-import-gpg@v6
@@ -91,5 +106,5 @@ jobs:
           git config --global user.email "${GIT_EMAIL}"
 
           git add .
-          git commit -m "chore(deb): update discord-canary to $LATEST"
+          git commit -m "chore(deb): update ${{ inputs.pkg_name }} to ${LATEST}"
           git push
