@@ -5,8 +5,8 @@ PPA repositories for my packages and other automated repositories.
 ## Usage
 
 ```bash
-sudo curl -SsL /etc/apt/trusted.gpg.d/brewcoua.gpg https://ppa.brewen.dev/ubuntu/KEY.gpg
-sudo curl -SsL /etc/apt/sources.list.d/brewcoua.list https://ppa.brewen.dev/ubuntu/brewcoua.list
+curl -SsL https://ppa.brewen.dev/ubuntu/KEY.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/brewcoua.gpg > /dev/null
+sudo curl -SsL -o /etc/apt/sources.list.d/brewcoua.list https://ppa.brewen.dev/ubuntu/brewcoua.list
 
 # Update package list and install whichever package you want
 sudo apt update && sudo apt install <package> # e.g. discord

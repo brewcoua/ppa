@@ -1,1 +1,1 @@
-deb [signed-by=/etc/apt/trusted.gpg.d/brewcoua.gpg] https://ppa.brewen.dev ./
+deb [signed-by=/etc/apt/trusted.gpg.d/brewcoua.gpg] https://ppa.brewen.dev/ubuntu ./
