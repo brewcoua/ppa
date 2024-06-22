@@ -42,7 +42,8 @@ jobs:
       - name: Get latest version
         id: latest
         run: |
-          LATEST=$(curl -SsI '${{ inputs.remote_url }}' | awk '/location/ {print $2}' | awk -F/ '{print $NF}')
+          LATEST=$(curl -SsI '${{ inputs.remote_url }}' | awk '/location/ {print $2}' | awk -F/ '{print $NF}' | tr -d '[:space:]')
+
           echo "latest=${LATEST}"
           echo "latest=${LATEST}" >> "$GITHUB_OUTPUT"
 
