@@ -50,7 +50,7 @@ jobs:
         id: check
         working-directory: ubuntu/${{ inputs.pkg_name }}
         run: |
-          CURRENT = $(ls | sort -V | tail -n 1)
+          export CURRENT=$(ls | sort -V | tail -n 1)
           if [ "$CURRENT" == "${{ steps.latest.outputs.latest }}" ]; then
             echo "The latest version is already here. (Current: $CURRENT, Latest: ${{ steps.latest.outputs.latest }})"
             echo "needs_update=false" >> "$GITHUB_OUTPUT"
