@@ -50,11 +50,11 @@ jobs:
         id: check
         working-directory: ubuntu/${{ inputs.pkg_name }}
         run: |
-          if [ -e "$GITHUB_WORKSPACE/ubuntu/${{ inputs.pkg_name }}/${LATEST}" ]; then
-            echo "The latest version is already in the repo (ubuntu/${{ inputs.pkg_name }}/${LATEST})"
+          if [ -e "$GITHUB_WORKSPACE/ubuntu/${{ inputs.pkg_name }}/${{ steps.latest.outputs.latest }}" ]; then
+            echo "The latest version is already in the repo (ubuntu/${{ inputs.pkg_name }}/${{ steps.latest.outputs.latest }})"
             echo "needs_update=false" >> "$GITHUB_OUTPUT"
           else
-            echo "The latest version is not in the repo (ubuntu/${{ inputs.pkg_name }}/${LATEST})"
+            echo "The latest version is not in the repo (ubuntu/${{ inputs.pkg_name }}/${{ steps.latest.outputs.latest }})"
             echo "needs_update=true" >> "$GITHUB_OUTPUT"
           fi
 
@@ -71,10 +71,8 @@ jobs:
           token: ${{ secrets.PAT }}
 
       - name: Download the latest version
-        env:
-          LATEST: ${{ needs.check.outputs.latest }}
         run: |
-          curl -SsL '${{ inputs.remote_url }}' -o "$GITHUB_WORKSPACE/ubuntu/${{ inputs.pkg_name }}/${LATEST}"
+          curl -SsL '${{ inputs.remote_url }}' -o "$GITHUB_WORKSPACE/ubuntu/${{ inputs.pkg_name }}/${{ needs.check.outputs.latest }}"
 
       - name: Clean up older versions
         working-directory: ubuntu/${{ inputs.pkg_name }}
@@ -100,12 +98,10 @@ jobs:
           gpg --default-key "${GIT_EMAIL}" --clearsign -o - Release > InRelease
 
       - name: Push the latest version
-        env:
-          LATEST: ${{ needs.check.outputs.latest }}
         run: |
           git config --global user.name "${GIT_NAME}"
           git config --global user.email "${GIT_EMAIL}"
 
           git add .
-          git commit -m "chore(deb): update ${{ inputs.pkg_name }} to ${LATEST}"
+          git commit -m "chore(deb): update ${{ inputs.pkg_name }} to ${{ needs.check.outputs.latest }}"
           git push
