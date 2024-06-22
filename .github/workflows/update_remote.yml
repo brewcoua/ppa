@@ -50,11 +50,11 @@ jobs:
         id: check
         working-directory: ubuntu/${{ inputs.pkg_name }}
         run: |
-          if [ -e "$GITHUB_WORKSPACE/ubuntu/${{ inputs.pkg_name }}/${{ steps.latest.outputs.latest }}" ]; then
-            echo "The latest version is already in the repo (ubuntu/${{ inputs.pkg_name }}/${{ steps.latest.outputs.latest }})"
+          if ls | grep -q "${{ steps.latest.outputs.latest }}"; then
+            echo "The latest version is already here. (Current: $(ls | sort -V | tail -n 1), Latest: ${{ steps.latest.outputs.latest }})"
             echo "needs_update=false" >> "$GITHUB_OUTPUT"
           else
-            echo "The latest version is not in the repo (ubuntu/${{ inputs.pkg_name }}/${{ steps.latest.outputs.latest }})"
+            echo "The latest version is not here yet. (Current: $(ls | sort -V | tail -n 1), Latest: ${{ steps.latest.outputs.latest }})"
             echo "needs_update=true" >> "$GITHUB_OUTPUT"
           fi
 
@@ -71,8 +71,9 @@ jobs:
           token: ${{ secrets.PAT }}
 
       - name: Download the latest version
+        working-directory: ubuntu/${{ inputs.pkg_name }}
         run: |
-          curl -SsL '${{ inputs.remote_url }}' -o "$GITHUB_WORKSPACE/ubuntu/${{ inputs.pkg_name }}/${{ needs.check.outputs.latest }}"
+          wget '${{ inputs.remote_url }}'
 
       - name: Clean up older versions
         working-directory: ubuntu/${{ inputs.pkg_name }}
