@@ -43,6 +43,7 @@ jobs:
         id: latest
         run: |
           LATEST=$(curl -SsI '${{ inputs.remote_url }}' | awk '/location/ {print $2}' | awk -F/ '{print $NF}')
+          echo "latest=${LATEST}"
           echo "latest=${LATEST}" >> "$GITHUB_OUTPUT"
 
       - name: Check if the latest version is already here
