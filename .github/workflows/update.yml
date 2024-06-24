@@ -10,7 +10,11 @@ jobs:
     strategy:
       matrix:
         package: [discord, discord-canary]
-        remote: [https://discord.com/api/download?platform=linux&format=deb, https://discord.com/api/download/canary?platform=linux&format=deb]
+        remote:
+          [
+            'https://discord.com/api/download?platform=linux&format=deb',
+            'https://discord.com/api/download/canary?platform=linux&format=deb',
+          ]
 
     uses: ./.github/workflows/update_remote.yml
     with:
