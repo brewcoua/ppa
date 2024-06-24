@@ -12,6 +12,7 @@ sudo curl -SsL -o /etc/apt/sources.list.d/brewcoua.list https://ppa.brewen.dev/u
 sudo apt update && sudo apt install <package> # e.g. discord
 ```
 
+
 ## Disclaimer
 
 I do not own some of the packages in this repository. I am not responsible for any issues that may arise from using these packages. Use at your own risk.
