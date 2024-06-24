@@ -22,6 +22,10 @@ env:
   GIT_NAME: brewcoua-bot
   GIT_EMAIL: 151367391+brewcoua-bot@users.noreply.github.com
 
+concurrency:
+  group: update
+  cancel-in-progress: false
+
 jobs:
   check:
     name: Check
@@ -65,6 +69,7 @@ jobs:
     permissions:
       contents: write
       id-token: write
+      pages: write
 
     steps:
       - name: Checkout
@@ -107,13 +112,13 @@ jobs:
           git commit -m "chore(deb): update ${{ inputs.pkg_name }} to ${{ needs.check.outputs.latest }}"
           git push
 
-  deploy:
-    name: Deploy
-    needs: update
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
-    permissions:
-      contents: read
-      id-token: write
-      pages: write
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
 
-    uses: ./.github/workflows/pages.yml
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
