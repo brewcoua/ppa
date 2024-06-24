@@ -13,8 +13,6 @@ on:
         type: number
         default: 5
     secrets:
-      PAT:
-        required: true
       GPG_PRIVATE_KEY:
         required: true
       GPG_PASSPHRASE:
@@ -66,11 +64,13 @@ jobs:
     needs: check
     if: needs.check.outputs.needs_update == 'true'
 
+    permissions:
+      contents: write
+      id-token: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.PAT }}
 
       - name: Download the latest version
         working-directory: ubuntu/${{ inputs.pkg_name }}
@@ -108,3 +108,14 @@ jobs:
           git add .
           git commit -m "chore(deb): update ${{ inputs.pkg_name }} to ${{ needs.check.outputs.latest }}"
           git push
+
+  deploy:
+    name: Deploy
+    needs: update
+
+    permissions:
+      contents: read
+      id-token: write
+      pages: write
+
+    uses: ./.github/workflows/pages.yml
