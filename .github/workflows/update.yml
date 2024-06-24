@@ -9,17 +9,20 @@ jobs:
   update:
     strategy:
       matrix:
-        package: [discord, discord-canary]
-        remote:
-          [
-            'https://discord.com/api/download?platform=linux&format=deb',
-            'https://discord.com/api/download/canary?platform=linux&format=deb',
-          ]
+        package:
+          - [
+              'discord',
+              'https://discord.com/api/download?platform=linux&format=deb',
+            ]
+          - [
+              'discord-canary',
+              'https://discord.com/api/download/canary?platform=linux&format=deb',
+            ]
 
     uses: ./.github/workflows/update_remote.yml
     with:
-      remote_url: ${{ matrix.remote }}
-      pkg_name: ${{ matrix.package }}
+      remote_url: ${{ matrix.package[1] }}
+      pkg_name: ${{ matrix.package[0] }}
     secrets:
       GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
       GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}

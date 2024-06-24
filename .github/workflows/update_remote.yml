@@ -11,7 +11,7 @@ on:
         required: true
       max_versions:
         type: number
-        default: 5
+        default: 3
     secrets:
       GPG_PRIVATE_KEY:
         required: true
@@ -34,8 +34,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.PAT }}
 
       - name: Get latest version
         id: latest
