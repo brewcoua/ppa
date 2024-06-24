@@ -71,6 +71,10 @@ jobs:
       id-token: write
       pages: write
 
+    environment:
+      name: ppa.brewen.dev
+      url: https://ppa.brewen.dev
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
