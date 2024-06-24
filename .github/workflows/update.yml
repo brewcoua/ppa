@@ -6,26 +6,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  discord-canary:
-    uses: ./.github/workflows/update_remote.yml
-    with:
-      remote_url: https://discord.com/api/download/canary?platform=linux&format=deb
-      pkg_name: discord-canary
-    secrets:
-      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-    permissions:
-      contents: write
-      id-token: write
+  update:
+    strategy:
+      matrix:
+        package: [discord, discord-canary]
+        remote:
+          [
+            https://discord.com/api/download?platform=linux&format=deb,
+            https://discord.com/api/download/canary?platform=linux&format=deb,
+          ]
 
-  discord:
     uses: ./.github/workflows/update_remote.yml
     with:
-      remote_url: https://discord.com/api/download?platform=linux&format=deb
-      pkg_name: discord
+      remote_url: ${{ matrix.remote }}
+      pkg_name: ${{ matrix.package }}
     secrets:
       GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
       GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
     permissions:
       contents: write
       id-token: write
+      pages: write
