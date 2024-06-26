@@ -87,7 +87,11 @@ jobs:
       - name: Clean up older versions
         working-directory: ubuntu/${{ inputs.pkg_name }}
         run: |
-          ls -t | tail -n +$(( ${{ inputs.max_versions }} + 1 )) | xargs rm -rf
+          DELETED_VERSIONS=$(ls -t | tail -n +$(( ${{ inputs.max_versions }} + 1 )))
+          if [ -n "$DELETED_VERSIONS" ]; then
+            echo "Deleting older versions: $DELETED_VERSIONS"
+            rm -rf $DELETED_VERSIONS
+          fi
 
       - name: Import GPG
         uses: crazy-max/ghaction-import-gpg@v6
