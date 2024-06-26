@@ -87,7 +87,7 @@ jobs:
       - name: Clean up older versions
         working-directory: ubuntu/${{ inputs.pkg_name }}
         run: |
-          DELETED_VERSIONS=$(ls -t | tail -n +$(( ${{ inputs.max_versions }} + 1 )))
+          DELETED_VERSIONS=$(ls -r | tail -n +$(( ${{ inputs.max_versions }} + 1 )))
           if [ -n "$DELETED_VERSIONS" ]; then
             echo "Deleting older versions: $DELETED_VERSIONS"
             rm -rf $DELETED_VERSIONS
