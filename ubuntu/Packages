@@ -56,25 +56,6 @@ Description: Chat for Communities and Friends
  hang out, and stay close with your friends and communities.
 
 Package: discord-canary
-Version: 0.0.444
-Architecture: amd64
-Maintainer: Discord Maintainer Team <native-team@discord.com>
-Installed-Size: 252708
-Depends: libc6, libasound2, libatomic1, libnotify4, libnspr4, libnss3, libstdc++6, libxss1, libxtst6
-Recommends: libappindicator1 | libayatana-appindicator1
-Filename: ./discord-canary/discord-canary-0.0.444.deb
-Size: 102757964
-MD5sum: da232c4a885008f022dad6bfa8087919
-SHA1: 1e8a4c88443ccda8ad7c27b94845d36bee697374
-SHA256: c1d8ec876d2432217099d12a2bc979be30e5d4d94c738e87acc1a374a6322bb4
-Section: net
-Priority: optional
-Homepage: https://discord.com
-Description: Chat for Communities and Friends
- Discord is the easiest way to communicate over voice, video, and text. Chat,
- hang out, and stay close with your friends and communities.
-
-Package: discord-canary
 Version: 0.0.446
 Architecture: amd64
 Maintainer: Discord Maintainer Team <native-team@discord.com>
@@ -105,6 +86,25 @@ Size: 102757774
 MD5sum: 230b44ca5792f03a3f2249c9b19e5bc5
 SHA1: c9849049b2b3c0e154e074c82565246384b75e10
 SHA256: a26f333bc0c4dffa6b2f9d5269bf8df905e9609c451f50f7f21d18f17fa395f9
+Section: net
+Priority: optional
+Homepage: https://discord.com
+Description: Chat for Communities and Friends
+ Discord is the easiest way to communicate over voice, video, and text. Chat,
+ hang out, and stay close with your friends and communities.
+
+Package: discord-canary
+Version: 0.0.449
+Architecture: amd64
+Maintainer: Discord Maintainer Team <native-team@discord.com>
+Installed-Size: 252708
+Depends: libc6, libasound2, libatomic1, libnotify4, libnspr4, libnss3, libstdc++6, libxss1, libxtst6
+Recommends: libappindicator1 | libayatana-appindicator1
+Filename: ./discord-canary/discord-canary-0.0.449.deb
+Size: 102757774
+MD5sum: c78eb18a6bb1864d761d23ec72054788
+SHA1: 30311d4be1e2700caccbe4e0b7a276446892888a
+SHA256: 5ee2a979c51108f1f9aa0bcfabb69132dc1a72f1e0182c19489cedbb4b029182
 Section: net
 Priority: optional
 Homepage: https://discord.com
