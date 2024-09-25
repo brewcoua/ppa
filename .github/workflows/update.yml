@@ -1,8 +1,8 @@
 name: Update
 
 on:
-  schedule: # Update every 2 hours
-    - cron: '0 */2 * * *'
+  #schedule: # Update every 2 hours
+  #  - cron: '0 */2 * * *'
   workflow_dispatch:
 
 jobs:
